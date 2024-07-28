@@ -12,6 +12,9 @@ from dscribe.descriptors import SOAP
 from dscribe.kernels import REMatchKernel
 
 from sklearn.preprocessing import normalize
+import argparse
+
+data_name = "sigma2"
 
 def main(args):
     if args.task!='IC50':
@@ -121,7 +124,7 @@ def main(args):
 
     mpi_comm.Barrier()
     MPI.Finalize()
-
+#python mpi_soap.py -task sigma2 -subtask sigma2
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-task', type=str, default='IC50',

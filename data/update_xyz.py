@@ -4,7 +4,7 @@ import sys
 smiles_name = sys.argv[1]+'.can'
 xyz_name = sys.argv[1]+'.xyz'
 
-SMILES_df = pd.read_csv(smiles_name, header=None, names=['smiles','val'], delim_whitespace=True)
+SMILES_df = pd.read_csv(smiles_name, header=None, names=['smiles','val'], delim_whitespace=True,dtype=str)
 
 i=0
 xyz_file = open(xyz_name,'r')
