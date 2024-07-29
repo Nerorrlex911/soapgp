@@ -6,7 +6,8 @@ from mpi4py import MPI
 import numpy as np
 import scipy
 
-from helper import read_xyz, split_by_lengths, return_borders
+from helper import split_by_lengths, return_borders
+from read_xyz import read_xyz
 
 from dscribe.descriptors import SOAP
 from dscribe.kernels import REMatchKernel
