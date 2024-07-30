@@ -1,9 +1,10 @@
-describe
+dscribe
 gpflow
 rdkit
-mpi4py
 numpy
 scipy
 pandas 
 scikit-learn
 progressbar
+ase
+pandas
