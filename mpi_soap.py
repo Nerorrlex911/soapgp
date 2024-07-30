@@ -43,9 +43,9 @@ def main(args):
     small_soap = SOAP(
         species=species,
         periodic=False,
-        rcut=rcut_small,
-        nmax=12,
-        lmax=8,
+        r_cut=rcut_small,
+        n_max=12,
+        l_max=8,
         sigma = sigma_small,
         sparse=True
     )
@@ -53,9 +53,9 @@ def main(args):
     large_soap = SOAP(
         species=species,
         periodic=False,
-        rcut=rcut_large,
-        nmax=12,
-        lmax=8,
+        r_cut=rcut_large,
+        n_max=12,
+        l_max=8,
         sigma = sigma_large,
         sparse=True
     )
