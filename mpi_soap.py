@@ -63,7 +63,11 @@ def main(args):
     t0 = time.time()
     my_border_low, my_border_high = return_borders(mpi_rank, dat_size, mpi_size) # split indices between MPI processes
 
+    print("debug: borders: ", str(my_border_low), str(my_border_high))
+    assert len(mols) > 0, "The 'mols' list is empty!"
+
     my_mols = mols[my_border_low:my_border_high]
+    assert len(my_mols) > 0, "The 'my_mols' list is empty!"
     soap = scipy.sparse.hstack([small_soap.create(my_mols),large_soap.create(my_mols)]) # generate atomic descriptors
 
     t1 = time.time()
