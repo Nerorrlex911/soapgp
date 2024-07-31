@@ -26,6 +26,7 @@ def read_xyz(config_file,
                     species = species.union(atoms)
                 xyz = config.get_positions()
                 mol = Atoms(symbols=config.get_chemical_symbols(), positions= xyz)
+                print("processed molecule",str(mol))
                 mol_list.append(mol)
             else: break
         return mol_list, num_list, atom_list, species
