@@ -13,7 +13,9 @@ def read_xyz(config_file,
         num_list = []
         ifs = open(config_file, 'r')
         while True:
+            print("reading molecule",ifs.readline())
             header = ifs.readline().split()
+            assert header != [], "Empty header"
             if header != []:
                 assert len(header) == 1
                 n_atoms = int(header[0])
