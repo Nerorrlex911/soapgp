@@ -15,6 +15,8 @@ from dscribe.kernels import REMatchKernel
 from sklearn.preprocessing import normalize
 import argparse
 
+from scipy.sparse import issparse
+
 data_name = "sigma2"
 
 def main(args):
@@ -68,6 +70,9 @@ def main(args):
 
     my_mols = mols[my_border_low:my_border_high]
     assert len(my_mols) > 0, "The 'my_mols' list is empty!"
+    my_mols_small_soap = small_soap.create(my_mols)
+    my_mols_large_soap = large_soap.create(my_mols)
+    print("debug: sparse matrix shape: ", str(issparse(my_mols_small_soap)), str(issparse(my_mols_large_soap)))
     soap = scipy.sparse.hstack([small_soap.create(my_mols),large_soap.create(my_mols)]) # generate atomic descriptors
 
     t1 = time.time()
