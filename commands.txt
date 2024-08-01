@@ -1,1 +1,2 @@
+./dataset_prep.sh sigma2/sigma2
 mpiexec -n 4 python mpi_soap.py -task sigma2/sigma2

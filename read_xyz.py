@@ -13,9 +13,7 @@ def read_xyz(config_file,
         num_list = []
         ifs = open(config_file, 'r')
         while True:
-            print("reading molecule",ifs.readline())
             header = ifs.readline().split()
-            assert header != [], "Empty header"
             if header != []:
                 assert len(header) == 1
                 n_atoms = int(header[0])
@@ -28,7 +26,6 @@ def read_xyz(config_file,
                     species = species.union(atoms)
                 xyz = config.get_positions()
                 mol = Atoms(symbols=config.get_chemical_symbols(), positions= xyz)
-                print("processed molecule",str(mol))
                 mol_list.append(mol)
             else: break
         return mol_list, num_list, atom_list, species
