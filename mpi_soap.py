@@ -5,6 +5,7 @@ from mpi4py import MPI
 
 import numpy as np
 import scipy
+import scipy.sparse
 
 from helper import split_by_lengths, return_borders
 from read_xyz import read_xyz
@@ -72,8 +73,11 @@ def main(args):
     assert len(my_mols) > 0, "The 'my_mols' list is empty!"
     my_mols_small_soap = small_soap.create(my_mols)
     my_mols_large_soap = large_soap.create(my_mols)
+    print("debug: sparse matrix ", str(my_mols_small_soap), str(my_mols_large_soap))
+    my_mols_small_soap = scipy.sparse.csr_matrix(my_mols_small_soap)
+    my_mols_large_soap = scipy.sparse.csr_matrix(my_mols_large_soap)
     print("debug: sparse matrix shape: ", str(type(my_mols_small_soap)), str(type(my_mols_large_soap)))
-    soap = scipy.sparse.hstack([small_soap.create(my_mols),large_soap.create(my_mols)]) # generate atomic descriptors
+    soap = scipy.sparse.hstack([my_mols_small_soap,my_mols_large_soap]) # generate atomic descriptors
 
     t1 = time.time()
     if mpi_rank==0:
