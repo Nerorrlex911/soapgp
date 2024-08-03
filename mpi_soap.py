@@ -16,7 +16,7 @@ from dscribe.kernels import REMatchKernel
 from sklearn.preprocessing import normalize
 import argparse
 
-from scipy.sparse import issparse
+from scipy.sparse import issparse,coo_matrix
 
 data_name = "sigma2"
 
@@ -72,10 +72,10 @@ def main(args):
     my_mols_small_soap = small_soap.create(my_mols)
     my_mols_large_soap = large_soap.create(my_mols)
     # 确保所有元素都是稀疏矩阵
-    my_mols_small_soap = [scipy.sparse.csr_matrix(x) for x in my_mols_small_soap]
-    my_mols_large_soap = [scipy.sparse.csr_matrix(x) for x in my_mols_large_soap]
-    assert all(issparse(x) for x in my_mols_small_soap), "Not all elements of small_soap are sparse matrices!"
-    assert all(issparse(x) for x in my_mols_large_soap), "Not all elements of large_soap are sparse matrices!"
+    my_mols_small_soap = [coo_matrix(x) for x in my_mols_small_soap]
+    my_mols_large_soap = [coo_matrix(x) for x in my_mols_large_soap]
+    assert all(isinstance(x,coo_matrix) for x in my_mols_small_soap), "Not all elements of small_soap are sparse COO matrices!"
+    assert all(isinstance(x,coo_matrix) for x in my_mols_large_soap), "Not all elements of large_soap are sparse COO matrices!"
     my_mols_small_soap = scipy.sparse.vstack(my_mols_small_soap)
     my_mols_large_soap = scipy.sparse.vstack(my_mols_large_soap)
     print("debug: sparse matrix shape: ", str(type(my_mols_small_soap)), str(type(my_mols_large_soap)))
