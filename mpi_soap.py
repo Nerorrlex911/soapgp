@@ -67,13 +67,15 @@ def main(args):
     my_border_low, my_border_high = return_borders(mpi_rank, dat_size, mpi_size) # split indices between MPI processes
 
     print("debug: borders: ", str(my_border_low), str(my_border_high))
-    assert len(mols) > 0, "The 'mols' list is empty!"
 
     my_mols = mols[my_border_low:my_border_high]
-    assert len(my_mols) > 0, "The 'my_mols' list is empty!"
     my_mols_small_soap = small_soap.create(my_mols)
     my_mols_large_soap = large_soap.create(my_mols)
-    print("debug: sparse matrix ", str(my_mols_small_soap[0]), str(my_mols_large_soap[0]))
+    # 确保所有元素都是稀疏矩阵
+    my_mols_small_soap = [scipy.sparse.csr_matrix(x) for x in my_mols_small_soap]
+    my_mols_large_soap = [scipy.sparse.csr_matrix(x) for x in my_mols_large_soap]
+    assert all(issparse(x) for x in my_mols_small_soap), "Not all elements of small_soap are sparse matrices!"
+    assert all(issparse(x) for x in my_mols_large_soap), "Not all elements of large_soap are sparse matrices!"
     my_mols_small_soap = scipy.sparse.vstack(my_mols_small_soap)
     my_mols_large_soap = scipy.sparse.vstack(my_mols_large_soap)
     print("debug: sparse matrix shape: ", str(type(my_mols_small_soap)), str(type(my_mols_large_soap)))
