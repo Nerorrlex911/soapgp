@@ -72,8 +72,14 @@ def main(args):
     my_mols_small_soap = small_soap.create(my_mols)
     my_mols_large_soap = large_soap.create(my_mols)
     # 确保所有元素都是稀疏矩阵
-    my_mols_small_soap = [coo_matrix(x) for x in my_mols_small_soap]
-    my_mols_large_soap = [coo_matrix(x) for x in my_mols_large_soap]
+    for i,element in enumerate(my_mols_small_soap):
+        if not isinstance(element,coo_matrix):
+            print("debug: not sparse: ", str(i),type(element))
+            my_mols_small_soap[i] = coo_matrix(element)
+    for i,element in enumerate(my_mols_large_soap):
+        if not isinstance(element,coo_matrix):
+            print("debug: not sparse: ", str(i),type(element))
+            my_mols_large_soap[i] = coo_matrix(element)
     assert all(isinstance(x,coo_matrix) for x in my_mols_small_soap), "Not all elements of small_soap are sparse COO matrices!"
     assert all(isinstance(x,coo_matrix) for x in my_mols_large_soap), "Not all elements of large_soap are sparse COO matrices!"
     my_mols_small_soap = scipy.sparse.vstack(my_mols_small_soap)
