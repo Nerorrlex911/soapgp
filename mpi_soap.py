@@ -20,6 +20,11 @@ from scipy.sparse import issparse,coo_matrix
 
 data_name = "sigma2"
 
+def to_coo_matrix(mat):
+    for i,element in enumerate(mat):
+        mat[i] = element.to_scipy_sparse()
+    return mat
+
 def main(args):
     if args.task!='IC50':
         mols, num_list, atom_list, species = read_xyz('data/'+args.task+'.xyz')
@@ -72,10 +77,8 @@ def main(args):
     my_mols_small_soap = small_soap.create(my_mols)
     my_mols_large_soap = large_soap.create(my_mols)
     # 确保所有元素都是稀疏矩阵
-    for i,element in enumerate(my_mols_small_soap):
-        my_mols_small_soap[i] = element.to_scipy_sparse()
-    for i,element in enumerate(my_mols_large_soap):
-        my_mols_large_soap[i] = element.to_scipy_sparse()
+    my_mols_small_soap = to_coo_matrix(my_mols_small_soap)
+    my_mols_large_soap = to_coo_matrix(my_mols_large_soap)
     assert all(isinstance(x,coo_matrix) for x in my_mols_small_soap), "Not all elements of small_soap are sparse COO matrices!"
     assert all(isinstance(x,coo_matrix) for x in my_mols_large_soap), "Not all elements of large_soap are sparse COO matrices!"
     my_mols_small_soap = scipy.sparse.vstack(my_mols_small_soap)
@@ -123,7 +126,11 @@ def main(args):
 
             start, end = return_borders(index, dat_size, mpi_size)
             ref_mols = mols[start:end]
-            ref_soap = scipy.sparse.hstack([small_soap.create(ref_mols),large_soap.create(ref_mols)])
+            ref_mols_small_soap = small_soap.create(ref_mols)
+            ref_mols_large_soap = large_soap.create(ref_mols)
+            ref_mols_small_soap = to_coo_matrix(ref_mols_small_soap)
+            ref_mols_large_soap = to_coo_matrix(ref_mols_large_soap)
+            ref_soap = scipy.sparse.hstack([ref_mols_small_soap,ref_mols_large_soap])
             ref_soap = normalize(ref_soap, copy=False)
             ref_soap = split_by_lengths(ref_soap, num_list[start:end])
             K[:, start:end] += re.create(my_soap, ref_soap).astype(np.float32)
