@@ -106,7 +106,7 @@ def main(args):
             else:
                 scipy.sparse.save_npz(args.soap_path + args.subtask + '_soap_' + str(i + my_border_low), mat)
 
-    if args.save_kernel: # save to args.kernel_path for use with gpr_soap.py
+    if False: # save to args.kernel_path for use with gpr_soap.py
         re = REMatchKernel(metric="polynomial", degree=3, gamma=1, coef0=0, alpha=0.5, threshold=1e-6, normalize_kernel=True)
 
         K = np.zeros((my_len, dat_size), dtype=np.float32)
