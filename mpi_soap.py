@@ -160,7 +160,7 @@ if __name__ == "__main__":
                         help='whether or not to save individual molecular soap descriptors into args.soap_path')
     parser.add_argument('-soap_path', type=str, default='soap/',
                         help='Path to directory for saving SOAP descriptors')
-    parser.add_argument('-save_kernel', type=bool, default=True,
+    parser.add_argument('-save_kernel', type=bool, default=False,
                         help='whether or not to compute and save SOAP kernel of dataset into args.kernel_path')
     parser.add_argument('-kernel_path', type=str, default='kernels/',
                         help='Path to directory for saving SOAP kernels')

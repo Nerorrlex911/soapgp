@@ -1,5 +1,1 @@
 mpiexec -n 4 python mpi_soap.py -task sigma2/sigma2 -save_kernel False
-python generate_xyz.py sigma2/sigma2.sdf sigma2/sigma2.xyz
-python update_xyz.py sigma2/sigma2.xyz > sigma2/sigma2_final.xyz
-./dataset_prep.sh sigma2/sigma2
-mpiexec -n 4 python mpi_soap.py -task sigma2/sigma2
