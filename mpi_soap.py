@@ -156,7 +156,7 @@ if __name__ == "__main__":
                         help='Dataset on which to train SOAP-GP')
     parser.add_argument('-subtask', type=str, default='A2a',
                         help='For IC50, data subset to train SOAP-GP')
-    parser.add_argument('-save_soap', action='store_true',
+    parser.add_argument('-save_soap', type=bool, default=True,
                         help='whether or not to save individual molecular soap descriptors into args.soap_path')
     parser.add_argument('-soap_path', type=str, default='soap/',
                         help='Path to directory for saving SOAP descriptors')
