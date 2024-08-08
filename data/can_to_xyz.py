@@ -115,6 +115,15 @@ if __name__ == "__main__":
         for job in jobs:
             mol= job.result()
             for conf in mol.GetConformers():
-                writer.write(Chem.MolToXYZBlock(mol, confId=conf.GetId()))
+                molstr = Chem.MolToXYZBlock(mol, confId=conf.GetId())
+
+                smiles = Chem.MolToSmiles(mol)
+                id = f'{mol.GetProp("_Name")}_{str(conf.GetId())}'
+                activity = mol.GetProp('Activity')
+
+                line = f'smiles="{smiles}" id="{id}" activity="{activity}" \n'
+
+                molstr = molstr.replace('\n',line)
+                writer.write(molstr)
             
     writer.close()
